@@ -1,0 +1,24 @@
+{
+  "name": "renovera-landings-publicas",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "workspaces": [
+    "apps/*"
+  ],
+  "scripts": {
+    "dev": "npm run dev:design",
+    "dev:design": "npm --workspace apps/design run dev -- --host 127.0.0.1 --port 5501",
+    "dev:consultoria": "npm --workspace apps/consultoria run dev -- --host 127.0.0.1 --port 5502",
+    "dev:solar": "npm --workspace apps/solar run dev -- --host 127.0.0.1 --port 5503",
+    "dev:eletroposto": "npm --workspace apps/eletroposto run dev -- --host 127.0.0.1 --port 5504",
+    "build": "npm run build:apps && node scripts/compose-dist.mjs",
+    "build:apps": "npm run build:design && npm run build:consultoria && npm run build:solar && npm run build:eletroposto",
+    "build:design": "npm --workspace apps/design run build -- --base=/design/",
+    "build:consultoria": "npm --workspace apps/consultoria run build -- --base=/consultoria/",
+    "build:solar": "npm --workspace apps/solar run build -- --base=/solar/",
+    "build:eletroposto": "npm --workspace apps/eletroposto run build -- --base=/eletroposto/",
+    "preview": "node scripts/serve-dist.mjs"
+  },
+  "devDependencies": {}
+}

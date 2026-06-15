@@ -1,0 +1,10 @@
+{
+  "buildCommand": "npm run build",
+  "outputDirectory": "dist",
+  "rewrites": [
+    { "source": "/design/editor", "destination": "/design/index.html" },
+    { "source": "/consultoria/editor", "destination": "/consultoria/index.html" },
+    { "source": "/solar/editor", "destination": "/solar/index.html" },
+    { "source": "/eletroposto/editor", "destination": "/eletroposto/index.html" }
+  ]
+}
