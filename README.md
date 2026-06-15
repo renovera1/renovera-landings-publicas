@@ -95,15 +95,28 @@ Rotas de publicacao:
 
 ## Publicacao online
 
-Recomendacao: Vercel.
+Opcao configurada: GitHub Pages com GitHub Actions.
 
-Configuracoes sugeridas:
+O workflow `.github/workflows/deploy-pages.yml` executa:
 
-- Build command: `npm run build`
-- Output directory: `dist`
-- Install command: `npm install`
+```bash
+npm ci
+npm run build
+```
 
-O arquivo `vercel.json` ja define o output e rewrites basicos para as rotas `/editor`.
+Depois publica a pasta:
+
+```txt
+dist/
+```
+
+Link publico previsto:
+
+```txt
+https://renovera1.github.io/renovera-landings-publicas/
+```
+
+O arquivo `vercel.json` tambem foi mantido para permitir publicacao futura na Vercel, se desejado.
 
 ## GitHub
 
@@ -111,6 +124,12 @@ Repositorio planejado:
 
 ```txt
 https://github.com/Renovera1/renovera-landings-publicas
+```
+
+Link publico previsto:
+
+```txt
+https://renovera1.github.io/renovera-landings-publicas/
 ```
 
 ## Seguranca

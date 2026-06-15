@@ -13,7 +13,7 @@
     "dev:solar": "npm --workspace apps/solar run dev -- --host 127.0.0.1 --port 5503",
     "dev:eletroposto": "npm --workspace apps/eletroposto run dev -- --host 127.0.0.1 --port 5504",
     "build": "npm run build:apps && node scripts/compose-dist.mjs",
-    "build:apps": "npm run build:design && npm run build:consultoria && npm run build:solar && npm run build:eletroposto",
+    "build:apps": "node scripts/build-apps.mjs",
     "build:design": "npm --workspace apps/design run build -- --base=/design/",
     "build:consultoria": "npm --workspace apps/consultoria run build -- --base=/consultoria/",
     "build:solar": "npm --workspace apps/solar run build -- --base=/solar/",

@@ -5,6 +5,18 @@ import { fileURLToPath } from "node:url";
 
 const root = path.dirname(path.dirname(fileURLToPath(import.meta.url)));
 const dist = path.join(root, "dist");
+const basePrefix = normalizePrefix(process.env.PUBLIC_BASE_PREFIX || "");
+
+function normalizePrefix(value) {
+  if (!value || value === "/") {
+    return "";
+  }
+  return `/${value.replace(/^\/+|\/+$/g, "")}`;
+}
+
+function publicPath(value) {
+  return `${basePrefix}/${value.replace(/^\/+/, "")}`.replace(/\/{2,}/g, "/");
+}
 
 const pages = [
   {
@@ -53,8 +65,8 @@ const cardMarkup = pages.map((page) => `
     <span>${page.title}</span>
     <h2>${page.description}</h2>
     <div class="actions">
-      <a class="primary" href="/${page.slug}/">Abrir página</a>
-      <a class="secondary" href="/${page.slug}/editor">Abrir editor</a>
+      <a class="primary" href="${publicPath(`${page.slug}/`)}">Abrir página</a>
+      <a class="secondary" href="${publicPath(`${page.slug}/editor`)}">Abrir editor</a>
     </div>
   </article>
 `).join("");
@@ -186,7 +198,7 @@ const indexHtml = `<!doctype html>
   <body>
     <header>
       <div class="hero">
-        <img src="/logo-renovera.png" alt="Renovera" />
+        <img src="${publicPath("logo-renovera.png")}" alt="Renovera" />
         <h1>Landings públicas da Renovera</h1>
         <p>Portal para acessar, testar e revisar as páginas comerciais da Renovera. Cada landing também possui uma versão de editor para ajustes rápidos de texto.</p>
       </div>
