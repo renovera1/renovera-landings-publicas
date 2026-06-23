@@ -1,34 +1,50 @@
-# Renovera Landings Publicas
+# Renovera Portal Institucional
 
-Portal publico com quatro landing pages da Renovera para teste, revisao e coleta de sugestoes:
+Portal institucional da Renovera, criado como hub central da marca e preservando as landing pages comerciais ja publicadas.
 
-- Consultoria Regulatoria;
-- Projetos Eletricos;
-- Energia Solar;
-- Eletropostos.
-
-Cada landing mantem a identidade visual da Renovera, com logo institucional, cores em verde, branco, cinza e dourado, botoes de WhatsApp e pagina de editor em `/editor`.
-
-## Tecnologias
+## Stack
 
 - React;
 - TypeScript;
 - Vite;
 - CSS por aplicacao;
-- npm workspaces.
+- npm workspaces;
+- GitHub Pages via GitHub Actions.
 
 ## Estrutura
 
 ```txt
 apps/
+  portal/        # Site institucional principal
   design/        # Landing de consultoria regulatoria
   consultoria/   # Landing de projetos eletricos
-  solar/         # Landing solar com editor visual
+  solar/         # Landing de energia solar
   eletroposto/   # Landing de eletropostos
 scripts/
+  build-apps.mjs
   compose-dist.mjs
   serve-dist.mjs
 ```
+
+## Rotas do portal
+
+- `/`
+- `/solucoes`
+- `/segmentos`
+- `/cases`
+- `/insights`
+- `/sobre`
+- `/contato`
+- `/politica-de-privacidade`
+- `/termos-de-uso`
+- `/canal-de-etica`
+
+## Landing pages externas usadas nos CTAs
+
+- Energia Solar: `https://renovera1.github.io/renovera-energia-solar/`
+- Consultoria Regulatoria: `https://renovera1.github.io/renovera-consultoria-regulatoria/`
+- Projetos Eletricos: `https://renovera1.github.io/renovera-projetos-eletricos/`
+- Eletropostos: `https://renovera1.github.io/renovera-eletroposto/`
 
 ## Instalar dependencias
 
@@ -38,7 +54,19 @@ npm install
 
 ## Rodar localmente
 
-Cada landing roda em uma porta propria:
+Portal institucional:
+
+```bash
+npm run dev
+```
+
+URL local:
+
+```txt
+http://127.0.0.1:5500/
+```
+
+Landings individuais:
 
 ```bash
 npm run dev:design
@@ -47,33 +75,13 @@ npm run dev:solar
 npm run dev:eletroposto
 ```
 
-URLs locais sugeridas:
-
-- `http://127.0.0.1:5501/`
-- `http://127.0.0.1:5502/`
-- `http://127.0.0.1:5503/`
-- `http://127.0.0.1:5504/`
-
-Editores:
-
-- `http://127.0.0.1:5501/editor`
-- `http://127.0.0.1:5502/editor`
-- `http://127.0.0.1:5503/editor`
-- `http://127.0.0.1:5504/editor`
-
 ## Build
 
 ```bash
 npm run build
 ```
 
-O build final e gerado em:
-
-```txt
-dist/
-```
-
-Para testar o portal final localmente:
+O build final e gerado em `dist/`. Para testar o build composto:
 
 ```bash
 npm run preview
@@ -85,17 +93,7 @@ URL do preview:
 http://127.0.0.1:4173/
 ```
 
-Rotas de publicacao:
-
-- `/design/`
-- `/consultoria/`
-- `/solar/`
-- `/eletroposto/`
-- `/editores.html`
-
-## Publicacao online
-
-Opcao configurada: GitHub Pages com GitHub Actions.
+## Publicacao no GitHub Pages
 
 O workflow `.github/workflows/deploy-pages.yml` executa:
 
@@ -104,10 +102,12 @@ npm ci
 npm run build
 ```
 
-Depois publica a pasta:
+Depois publica a pasta `dist/`.
 
-```txt
-dist/
+Para publicar com prefixo de repositorio:
+
+```bash
+PUBLIC_BASE_PREFIX=/renovera-landings-publicas npm run build
 ```
 
 Link publico previsto:
@@ -116,39 +116,6 @@ Link publico previsto:
 https://renovera1.github.io/renovera-landings-publicas/
 ```
 
-O arquivo `vercel.json` tambem foi mantido para permitir publicacao futura na Vercel, se desejado.
+## Conteudo pendente para evolucao
 
-## GitHub
-
-Repositorio planejado:
-
-```txt
-https://github.com/Renovera1/renovera-landings-publicas
-```
-
-Link publico previsto:
-
-```txt
-https://renovera1.github.io/renovera-landings-publicas/
-```
-
-## Seguranca
-
-Este projeto nao deve conter:
-
-- senhas;
-- tokens;
-- chaves de API;
-- arquivos `.env`;
-- credenciais do GitHub;
-- credenciais de banco de dados.
-
-Autenticacao com GitHub deve ser feita apenas por fluxo oficial, como GitHub CLI, OAuth ou Personal Access Token com permissoes limitadas.
-
-## Proximos passos
-
-1. Instalar Git e GitHub CLI, se ainda nao estiverem disponiveis.
-2. Autenticar com `gh auth login`.
-3. Criar o repositorio na conta `Renovera1`.
-4. Fazer commit e push.
-5. Conectar o repositorio na Vercel e publicar.
+Os objetos de cases e artigos iniciais ficam em `apps/portal/src/App.tsx`. Eles usam conteudo institucional neutro para evitar numeros, clientes, certificacoes ou resultados inventados. Ao receber cases e artigos reais, atualize esses objetos com os dados validados.

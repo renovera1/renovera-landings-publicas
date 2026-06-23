@@ -23,7 +23,8 @@ const types = new Map([
 
 function resolveRequest(url) {
   const decoded = decodeURIComponent(new URL(url, `http://127.0.0.1:${port}`).pathname);
-  const normalized = path.normalize(decoded).replace(/^([/\\])+/, "");
+  const withoutPublicPrefix = decoded.replace(/^\/renovera-landings-publicas(?=\/|$)/, "") || "/";
+  const normalized = path.normalize(withoutPublicPrefix).replace(/^([/\\])+/, "");
   const route = normalized.replace(/\\/g, "/");
   let candidate = path.join(dist, normalized);
 
