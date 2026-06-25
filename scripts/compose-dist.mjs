@@ -62,6 +62,18 @@ if (existsSync(portalIndex)) {
     await mkdir(routeDir, { recursive: true });
     await cp(portalIndex, path.join(routeDir, "index.html"));
   }
+  const legacyHtmlAliases = [
+    "sobre.html",
+    "blog.html",
+    "contato.html",
+    "blog-direitos-concessionaria.html",
+    "blog-nova-regulamentacao.html",
+    "blog-6-duvidas.html",
+    "blog-aterramento.html"
+  ];
+  for (const alias of legacyHtmlAliases) {
+    await cp(portalIndex, path.join(dist, alias));
+  }
 }
 
 

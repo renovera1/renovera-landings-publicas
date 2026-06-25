@@ -160,10 +160,22 @@ const meta: Record<string, { title: string; description: string }> = {
   "/contato": { title: "Contato | Renovera", description: "Triagem comercial da Renovera via WhatsApp e e-mail." },
 };
 
+const legacyPathAliases: Record<string, string> = {
+  "/index.html": "/",
+  "/sobre.html": "/sobre",
+  "/blog.html": "/blog",
+  "/contato.html": "/contato",
+  "/blog-direitos-concessionaria.html": "/blog-direitos-concessionaria",
+  "/blog-nova-regulamentacao.html": "/blog-nova-regulamentacao",
+  "/blog-6-duvidas.html": "/blog-6-duvidas",
+  "/blog-aterramento.html": "/blog-aterramento",
+};
+
 function routePath() {
   const path = window.location.pathname.replace(/\/+$/, "") || "/";
   const base = "/renovera-landings-publicas";
-  return path.startsWith(base) ? path.slice(base.length) || "/" : path;
+  const current = path.startsWith(base) ? path.slice(base.length) || "/" : path;
+  return legacyPathAliases[current] || current;
 }
 
 function wa(message: string) {
