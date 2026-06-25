@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Creator: CorelDRAW -->
+<svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="25.43mm" height="25.43mm" version="1.1" style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd"
+viewBox="0 0 84.29 84.29"
+ xmlns:xlink="http://www.w3.org/1999/xlink"
+ xmlns:xodm="http://www.corel.com/coreldraw/odm/2003">
+ <defs>
+  <font id="FontID0" horiz-adv-x="736" font-variant="normal" style="fill-rule:nonzero" font-style="normal" font-weight="700">
+	<font-face 
+		font-family="Poppins">
+		<font-face-src>
+			<font-face-name name="Poppins Bold"/>
+		</font-face-src>
+	</font-face>
+   <missing-glyph><path d="M0 0z"/></missing-glyph>
+   <glyph unicode="2" horiz-adv-x="570" d="M38.9988 136.999c22.6688,17.9994 32.9989,26.3364 31.0007,25.0009 65.3352,53.9983 116.834,98.3341 154.503,133.002 37.6632,34.6633 69.4986,70.996 95.4961,108.998 26.0025,37.9971 39.0038,74.9976 39.0038,111.002 0,27.333 -6.33369,48.6662 -19.0011,63.9996 -12.6674,15.3334 -31.6685,22.9976 -57.0032,22.9976 -25.3297,0 -45.1655,-9.50054 -59.4973,-28.5016 -14.3317,-18.996 -21.5002,-45.8333 -21.5002,-80.4966l-165 0c1.33048,56.6643 13.497,104 36.4997,141.997 22.9976,38.0022 53.3356,66.0029 90.9988,84.0024 37.6683,17.9994 79.5,26.9991 125.5,26.9991 79.333,0 139.169,-20.3316 179.498,-60.9997 40.3343,-40.6682 60.504,-93.6648 60.504,-159 0,-71.335 -24.3331,-137.5 -72.9993,-198.5 -48.6713,-60.9997 -110.668,-120.502 -186.004,-178.502l270.001 0 0 -138.997 -502.001 0 0 126.998z"/>
+  </font>
+  <style type="text/css">
+   <![CDATA[
+    @font-face { font-family:"Poppins";font-variant:normal;font-style:normal;font-weight:bold;src:url("#FontID0") format(svg)}
+    .str0 {stroke:#FED15D;stroke-width:4.97;stroke-miterlimit:22.9256}
+    .fil0 {fill:none}
+    .fil1 {fill:#FED15D}
+    .fnt0 {font-weight:bold;font-size:65.52px;font-family:'Poppins'}
+   ]]>
+  </style>
+ </defs>
+ <g id="Camada_x0020_1">
+  <metadata id="CorelCorpID_0Corel-Layer"/>
+  <rect class="fil0" width="84.29" height="84.29"/>
+  <circle class="fil0 str0" cx="42.15" cy="42.15" r="36.37"/>
+  <text x="23.21" y="66.06"  class="fil1 fnt0">2</text>
+ </g>
+</svg>

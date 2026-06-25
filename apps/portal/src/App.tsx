@@ -115,28 +115,28 @@ const legacyPosts = [
     category: "Regulação e concessionárias",
     title: 'REN 1.000/2021: O "Glossário" do Integrador para Exigir seus Direitos na Concessionária',
     image: "blog-direitos-concessionaria.jpg",
-    href: "https://renovera.com.br/blog-direitos-concessionaria.html",
+    href: "blog-direitos-concessionaria",
   },
   {
     date: "17 de dezembro de 2025",
     category: "Energia Solar",
     title: "As 6 REN 1.059/2023: O Guia Prático da Nova Regulamentação para Autoconsumo e Geração Compartilhada",
     image: "blog-nova-regulamentacao.jpg",
-    href: "https://renovera.com.br/blog-nova-regulamentacao.html",
+    href: "blog-nova-regulamentacao",
   },
   {
     date: "10 de dezembro de 2025",
     category: "Energia Solar",
     title: "As 6 Dúvidas Mais Comuns de Quem Pensa em Instalar Energia Solar",
     image: "blog-6-duvidas.jpg",
-    href: "https://renovera.com.br/blog-6-duvidas.html",
+    href: "blog-6-duvidas",
   },
   {
     date: "03 de dezembro de 2025",
     category: "Projetos Elétricos",
     title: "Aterramento e Equipotencialização em Sistemas Fotovoltaicos: O Guia para a NBR 5410",
     image: "blog-aterramento.jpg",
-    href: "https://renovera.com.br/blog-aterramento.html",
+    href: "blog-aterramento",
   },
 ];
 
@@ -763,8 +763,22 @@ function App() {
       if (!link) return;
       const href = link.getAttribute("href");
       if (!href || href.startsWith("http") || href.startsWith("mailto:") || href.startsWith("#")) return;
-      event.preventDefault();
       const nextUrl = new URL(href, window.location.href);
+      const base = "/renovera-landings-publicas";
+      const normalized = nextUrl.pathname.replace(/\/+$/, "") || "/";
+      const route = normalized.startsWith(base) ? normalized.slice(base.length) || "/" : normalized;
+      const legacyRoutes = new Set([
+        "/sobre",
+        "/insights",
+        "/blog",
+        "/contato",
+        "/blog-direitos-concessionaria",
+        "/blog-nova-regulamentacao",
+        "/blog-6-duvidas",
+        "/blog-aterramento",
+      ]);
+      if (legacyRoutes.has(route)) return;
+      event.preventDefault();
       window.history.pushState({}, "", nextUrl.pathname + nextUrl.search);
       setPath(routePath());
       window.scrollTo({ top: 0, behavior: "smooth" });

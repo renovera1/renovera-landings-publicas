@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Creator: CorelDRAW -->
+<svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="25.43mm" height="25.43mm" version="1.1" style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd"
+viewBox="0 0 90.51 90.51"
+ xmlns:xlink="http://www.w3.org/1999/xlink"
+ xmlns:xodm="http://www.corel.com/coreldraw/odm/2003">
+ <defs>
+  <font id="FontID0" horiz-adv-x="736" font-variant="normal" style="fill-rule:nonzero" font-weight="700">
+	<font-face 
+		font-family="Poppins">
+		<font-face-src>
+			<font-face-name name="Poppins Bold"/>
+		</font-face-src>
+	</font-face>
+   <missing-glyph><path d="M0 0z"/></missing-glyph>
+   <glyph unicode="3" horiz-adv-x="604" d="M50.9984 524.002c2.66602,71.3299 26.0025,126.33 69.9994,165 44.002,38.6649 103.671,57.9998 179.003,57.9998 50.0018,0 92.8351,-8.66583 128.5,-26.0025 35.665,-17.3317 62.6641,-40.997 80.9974,-71.0011 18.3333,-29.999 27.5,-63.6658 27.5,-101 0,-43.9969 -10.998,-79.8288 -32.9989,-107.496 -22.001,-27.6669 -47.6646,-46.501 -77.0009,-56.5024l0 -4.00156c38.0022,-12.6623 68.0012,-33.6667 90.0022,-62.998 22.001,-29.3313 32.9989,-66.9995 32.9989,-113 0,-41.3359 -9.50054,-77.8356 -28.5016,-109.499 -18.996,-31.6685 -46.6629,-56.5024 -82.9957,-74.5018 -36.3378,-17.9994 -79.5,-26.9991 -129.502,-26.9991 -80.0008,0 -143.834,19.6688 -191.498,59.0015 -47.6696,39.3326 -72.8375,98.6629 -75.5035,177.996l166.001 0c0.667769,-29.3313 8.99971,-52.4958 25.0009,-69.4986 16.0012,-16.9978 39.3326,-25.4967 69.9994,-25.4967 25.9975,0 46.1672,7.49723 60.4989,22.4967 14.3317,14.9995 21.5002,34.8353 21.5002,59.5023 0,31.9973 -10.1683,55.1669 -30.4999,69.4986 -20.3316,14.3317 -52.8347,21.5002 -97.4994,21.5002l-32.0023 0 0 139.002 32.0023 0c34.0006,0 61.5006,5.83287 82.4999,17.4986 20.9993,11.6657 31.5015,32.4981 31.5015,62.4972 0,23.9992 -6.66758,42.6664 -20.0027,56.0016 -13.3301,13.3352 -31.6634,19.9977 -54.9999,19.9977 -25.3348,0 -44.1638,-7.66417 -56.4973,-22.9976 -12.3335,-15.3334 -19.5019,-34.3345 -21.5002,-56.9982l-167.003 0z"/>
+  </font>
+  <style type="text/css">
+   <![CDATA[
+    @font-face { font-family:"Poppins";font-variant:normal;font-weight:bold;src:url("#FontID0") format(svg)}
+    .str0 {stroke:#FED15D;stroke-width:5.34;stroke-miterlimit:22.9256}
+    .fil0 {fill:none}
+    .fil1 {fill:#FED15D}
+    .fnt0 {font-weight:bold;font-size:70.36px;font-family:'Poppins'}
+   ]]>
+  </style>
+ </defs>
+ <g id="Camada_x0020_1">
+  <metadata id="CorelCorpID_0Corel-Layer"/>
+  <rect class="fil0" width="90.51" height="90.51"/>
+  <circle class="fil0 str0" cx="45.26" cy="45.26" r="39.05"/>
+  <text x="24.43" y="70.94"  class="fil1 fnt0">3</text>
+ </g>
+</svg>

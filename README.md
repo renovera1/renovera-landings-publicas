@@ -141,3 +141,14 @@ https://renovera1.github.io/renovera-landings-publicas/
 ## Conteudo pendente para evolucao
 
 Os objetos de cases e artigos iniciais ficam em `apps/portal/src/App.tsx`. Eles usam conteudo institucional neutro para evitar numeros, clientes, certificacoes ou resultados inventados. Ao receber cases e artigos reais, atualize esses objetos com os dados validados.
+
+
+## Paginas legadas isoladas
+
+As rotas `/sobre`, `/insights`, `/blog`, `/contato` e os artigos legados de blog sao servidos como HTML estatico gerado a partir do site original da Renovera.
+
+Arquivos:
+
+- `apps/portal/public/legacy-pages/`: HTMLs originais reescritos para o GitHub Pages;
+- `apps/portal/public/assets/renovera-legado/`: CSS, JS, imagens, fontes e icones do site legado;
+- `scripts/compose-dist.mjs`: substitui essas rotas no `dist/` depois do build da SPA.

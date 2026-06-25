@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Creator: CorelDRAW -->
+<svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="25.43mm" height="25.43mm" version="1.1" style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd"
+viewBox="0 0 97.72 97.72"
+ xmlns:xlink="http://www.w3.org/1999/xlink"
+ xmlns:xodm="http://www.corel.com/coreldraw/odm/2003">
+ <defs>
+  <font id="FontID0" horiz-adv-x="736" font-variant="normal" style="fill-rule:nonzero" font-style="normal" font-weight="700">
+	<font-face 
+		font-family="Poppins">
+		<font-face-src>
+			<font-face-name name="Poppins Bold"/>
+		</font-face-src>
+	</font-face>
+   <missing-glyph><path d="M0 0z"/></missing-glyph>
+   <glyph unicode="4" horiz-adv-x="677" d="M49.0001 129.998l0 138.001 316.002 452.004 190.997 0 0 -442.003 81.9991 0 0 -148.002 -81.9991 0 0 -129.998 -171 0 0 129.998 -335.999 0zm347.999 402.002l-168 -254 168 0 0 254z"/>
+  </font>
+  <style type="text/css">
+   <![CDATA[
+    @font-face { font-family:"Poppins";font-variant:normal;font-style:normal;font-weight:bold;src:url("#FontID0") format(svg)}
+    .str0 {stroke:#FED15D;stroke-width:5.76;stroke-miterlimit:22.9256}
+    .fil0 {fill:none}
+    .fil1 {fill:#FED15D}
+    .fnt0 {font-weight:bold;font-size:75.96px;font-family:'Poppins'}
+   ]]>
+  </style>
+ </defs>
+ <g id="Camada_x0020_1">
+  <metadata id="CorelCorpID_0Corel-Layer"/>
+  <rect class="fil0" width="97.72" height="97.72"/>
+  <circle class="fil0 str0" cx="48.86" cy="48.86" r="42.16"/>
+  <text x="22.77" y="76.59"  class="fil1 fnt0">4</text>
+ </g>
+</svg>

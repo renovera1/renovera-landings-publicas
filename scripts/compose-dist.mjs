@@ -59,10 +59,33 @@ if (existsSync(portalIndex)) {
   }
 }
 
+const legacySource = path.join(root, "apps", "portal", "public", "legacy-pages");
+const legacyRoutes = [
+  { route: "sobre", file: "sobre.html" },
+  { route: "insights", file: "blog.html" },
+  { route: "blog", file: "blog.html" },
+  { route: "contato", file: "contato.html" },
+  { route: "blog-direitos-concessionaria", file: "blog-direitos-concessionaria.html" },
+  { route: "blog-nova-regulamentacao", file: "blog-nova-regulamentacao.html" },
+  { route: "blog-6-duvidas", file: "blog-6-duvidas.html" },
+  { route: "blog-aterramento", file: "blog-aterramento.html" },
+];
+
+for (const item of legacyRoutes) {
+  const source = path.join(legacySource, item.file);
+  if (!existsSync(source)) {
+    throw new Error("Pagina legada ausente: " + source);
+  }
+  const routeDir = path.join(dist, item.route);
+  await mkdir(routeDir, { recursive: true });
+  await cp(source, path.join(routeDir, "index.html"));
+  await cp(source, path.join(dist, item.route + ".html"));
+}
+
 const publicBase = basePrefix || "/renovera-landings-publicas";
 const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  ${["", "solucoes", "segmentos", "cases", "insights", "sobre", "contato", "politica-de-privacidade", "termos-de-uso", "canal-de-etica"].map((route) => `<url><loc>https://renovera1.github.io${publicBase}/${route}</loc></url>`).join("\n  ")}
+  ${["", "solucoes", "segmentos", "cases", "insights", "sobre", "contato", "blog-direitos-concessionaria", "blog-nova-regulamentacao", "blog-6-duvidas", "blog-aterramento", "politica-de-privacidade", "termos-de-uso", "canal-de-etica"].map((route) => `<url><loc>https://renovera1.github.io${publicBase}/${route}</loc></url>`).join("\n  ")}
 </urlset>`;
 
 await writeFile(path.join(dist, "sitemap.xml"), sitemap, "utf8");
