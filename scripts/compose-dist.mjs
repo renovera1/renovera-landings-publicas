@@ -78,9 +78,25 @@ if (existsSync(portalIndex)) {
 
 
 const publicBase = basePrefix || "/renovera-landings-publicas";
+const sitemapRoutes = [
+  "",
+  "solucoes",
+  "cases",
+  "insights",
+  "sobre",
+  "contato",
+  "politica-de-privacidade",
+  "termos-de-uso",
+  "canal-de-etica",
+  "blog-direitos-concessionaria.html",
+  "blog-nova-regulamentacao.html",
+  "blog-6-duvidas.html",
+  "blog-aterramento.html"
+];
+
 const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  ${["", "solucoes", "segmentos", "cases", "insights", "sobre", "contato", "blog-direitos-concessionaria", "blog-nova-regulamentacao", "blog-6-duvidas", "blog-aterramento", "politica-de-privacidade", "termos-de-uso", "canal-de-etica"].map((route) => `<url><loc>https://renovera1.github.io${publicBase}/${route}</loc></url>`).join("\n  ")}
+  ${sitemapRoutes.map((route) => `<url><loc>https://renovera1.github.io${publicBase}/${route}</loc></url>`).join("\n  ")}
 </urlset>`;
 
 await writeFile(path.join(dist, "sitemap.xml"), sitemap, "utf8");

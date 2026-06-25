@@ -5,7 +5,10 @@ const email = "contato@renovera.com.br";
 const complianceEmail = "compliance@renovera.com.br";
 const address = "Rua Visconde de Rio Branco, 106, São João da Boa Vista - SP";
 const assetBase = import.meta.env.BASE_URL || "/";
-const renoveraAsset = (file: string) => `${assetBase}assets/renovera/${file}`;
+export function assetUrl(path: string) {
+  return `${assetBase}${path.replace(/^\//, "")}`;
+}
+const renoveraAsset = (file: string) => assetUrl(`assets/renovera/${file}`);
 
 const landingUrls = {
   solar: "https://renovera1.github.io/renovera-energia-solar/",
@@ -202,9 +205,8 @@ function Icon({ name }: { name: IconName }) {
 
 function WhatsAppIcon() {
   return (
-    <svg viewBox="0 0 48 48" aria-hidden="true" focusable="false">
-      <path d="M24 7a16.9 16.9 0 0 0-14.3 26L8 41l8.2-1.8A17 17 0 1 0 24 7z" />
-      <path d="M18.4 16.8c-.4-.9-.8-.9-1.2-.9h-1c-.4 0-1 .1-1.5.7s-2 1.9-2 4.7 2.1 5.5 2.4 5.9c.3.4 4.1 6.3 10.2 8.6 5 1.9 6.1 1.1 7.2 1s3.6-1.5 4.1-2.9.5-2.6.3-2.9-.5-.4-1.1-.7-3.6-1.8-4.2-2-1-.3-1.4.3-1.6 2-2 2.4-.7.4-1.3.1a13.7 13.7 0 0 1-4.1-2.5 15.2 15.2 0 0 1-2.8-3.5c-.3-.6 0-.9.2-1.2.3-.3.6-.7.9-1 .3-.4.4-.6.6-1 .2-.4.1-.8 0-1.1s-1.4-3.4-1.9-4.7" />
+    <svg viewBox="0 0 32 32" aria-hidden="true" focusable="false">
+      <path d="M16.02 2.5A13.36 13.36 0 0 0 4.6 22.76L3 29.5l6.9-1.55A13.37 13.37 0 1 0 16.02 2.5Zm0 2.42a10.94 10.94 0 0 1 9.3 16.7l-.33.52.88 3.84-3.94-.88-.5.3a10.94 10.94 0 0 1-16.34-9.48A10.95 10.95 0 0 1 16.02 4.92Zm-5.4 5.83c-.25 0-.66.1-1 .47-.35.38-1.32 1.3-1.32 3.15 0 1.86 1.35 3.66 1.54 3.91.2.26 2.6 4.16 6.48 5.66 3.22 1.25 3.88 1 4.58.94.7-.07 2.27-.93 2.59-1.82.32-.9.32-1.66.22-1.82-.1-.16-.36-.25-.76-.45-.4-.2-2.34-1.16-2.7-1.29-.36-.13-.62-.2-.88.2-.26.39-1.01 1.29-1.24 1.55-.23.26-.46.29-.85.1-.4-.2-1.67-.62-3.18-1.97a11.9 11.9 0 0 1-2.2-2.74c-.23-.4-.02-.61.17-.8.18-.18.4-.46.6-.69.2-.23.26-.4.4-.66.13-.26.06-.49-.04-.69-.1-.2-.88-2.12-1.2-2.9-.32-.76-.64-.65-.88-.66h-.83Z" />
     </svg>
   );
 }
@@ -268,21 +270,42 @@ function Header() {
 
 function Footer() {
   return (
-    <footer className="footer">
-      <div className="footer-grid">
-        <div className="footer-brand">
-          <img src={renoveraAsset("logo.png")} alt="Renovera" />
-          <p>Engenharia, energia e regulação para decisões técnicas, comerciais e operacionais que exigem clareza.</p>
+    <footer className="site-footer">
+      <div className="site-footer__container">
+        <div className="site-footer__grid">
+          <div className="site-footer__brand">
+            <img src={renoveraAsset("logo.png")} alt="Renovera" />
+            <p>Engenharia, energia e regulação para decisões técnicas, comerciais e operacionais que exigem clareza.</p>
+          </div>
+          <nav className="site-footer__nav" aria-label="Menu do rodapé">
+            <h3>Menu</h3>
+            <a href={assetBase}>Início</a>
+            <a href={`${assetBase}solucoes`}>Soluções</a>
+            <a href={`${assetBase}cases`}>Cases</a>
+            <a href={`${assetBase}insights`}>Blog</a>
+            <a href={`${assetBase}sobre`}>A Renovera</a>
+            <a href={`${assetBase}contato`}>Contato</a>
+          </nav>
+          <div className="site-footer__contact">
+            <h3>Contato</h3>
+            <a href={`mailto:${email}`}>{email}</a>
+            <p>Atendimento: Segunda a Sexta</p>
+          </div>
+          <div className="site-footer__ethics">
+            <h3>Denúncias</h3>
+            <p>Canal seguro e confidencial para denúncias</p>
+            <a className="site-footer__compliance" href={`mailto:${complianceEmail}`}>COMPLIANCE@RENOVERA.COM.BR</a>
+          </div>
         </div>
-        <div><h3>Menu</h3><a href={assetBase}>Início</a><a href={`${assetBase}solucoes`}>Soluções</a><a href={`${assetBase}cases`}>Cases</a><a href={`${assetBase}insights`}>Blog</a><a href={`${assetBase}sobre`}>A Renovera</a><a href={`${assetBase}contato`}>Contato</a></div>
-        <div><h3>Contato</h3><a href={`mailto:${email}`}>{email}</a><p>Atendimento: Segunda a Sexta</p></div>
-        <div><h3>Denúncias</h3><p>Canal seguro e confidencial para denúncias</p><a className="footer-compliance" href={`mailto:${complianceEmail}`}>COMPLIANCE@RENOVERA.COM.BR</a></div>
-      </div>
-      <div className="footer-bottom">
-        <span>© 2026 Renovera. Todos os direitos reservados.</span>
-        <a href={`${assetBase}politica-de-privacidade`}>Política de Privacidade</a>
-        <a href={`${assetBase}termos-de-uso`}>Termos de Uso</a>
-        <a href={`${assetBase}canal-de-etica`}>Canal de Ética</a>
+        <div className="site-footer__divider" />
+        <div className="site-footer__bottom">
+          <span>© 2026 Renovera. Todos os direitos reservados.</span>
+          <nav aria-label="Links legais">
+            <a href={`${assetBase}politica-de-privacidade`}>Política de Privacidade</a>
+            <a href={`${assetBase}termos-de-uso`}>Termos de Uso</a>
+            <a href={`${assetBase}canal-de-etica`}>Canal de Ética</a>
+          </nav>
+        </div>
       </div>
     </footer>
   );
@@ -588,7 +611,7 @@ function SegmentsPage() {
     <main className="page-main">
       <PageHero title="Soluções por contexto operacional" text="A Renovera adapta a análise ao risco, à operação e à decisão energética de cada segmento." />
       <div className="segment-page">
-        <aside>{segments.map((item) => <button className={active.title === item.title ? "selected" : ""} onClick={() => setFilter(item.title)} key={item.title}>{item.title}</button>)}</aside>
+        <div className="segment-filters">{segments.map((item) => <button className={active.title === item.title ? "selected" : ""} onClick={() => setFilter(item.title)} key={item.title}>{item.title}</button>)}</div>
         <article>
           <h2>{active.title}</h2>
           <p><b>Contexto operacional:</b> {active.context}</p>
@@ -724,17 +747,19 @@ function CookieBanner({ path }: { path: string }) {
   }, [path]);
   if (!visible) return null;
   return (
-    <aside className="cookie-banner" role="dialog" aria-label="Aviso de cookies">
+    <div className="cookie-banner" role="dialog" aria-label="Aviso de cookies">
       <p>Ao acessar o site você concorda com o uso de cookies para melhorar a sua experiência de navegação. Para saber mais acesse a nossa <a href="politica-de-privacidade">Política de Privacidade</a>.</p>
       <button type="button" onClick={() => { localStorage.setItem(cookieKey, "accepted"); setVisible(false); }}>Continuar e fechar</button>
-    </aside>
+    </div>
   );
 }
 
 function BackToTop({ visible }: { visible: boolean }) {
   return (
     <button className={`back-to-top ${visible ? "visible" : ""}`} type="button" aria-label="Voltar ao início da página" onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}>
-      ↑
+      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+        <path d="M12 5 5.5 11.5l1.42 1.42L11 8.84V20h2V8.84l4.08 4.08 1.42-1.42L12 5Z" />
+      </svg>
     </button>
   );
 }
@@ -813,7 +838,25 @@ function App() {
     if (path === "/canal-de-etica") return <LegalPage type="ethics" />;
     return <Home />;
   }, [path]);
-  return <><Header />{page}<Footer /><CookieBanner path={path} /><BackToTop visible={showTop} /><a className="whatsapp-float" href={wa("Olá, Renovera. Gostaria de conversar sobre uma solução de energia para minha operação.")} aria-label="Falar no WhatsApp"><WhatsAppIcon /><span>Falar com a Renovera</span></a></>;
+  return (
+    <>
+      <Header />
+      {page}
+      <Footer />
+      <CookieBanner path={path} />
+      <BackToTop visible={showTop} />
+      <a
+        className="whatsapp-float"
+        href={wa("Olá, Renovera. Gostaria de conversar sobre uma solução de energia para minha operação.")}
+        target="_blank"
+        rel="noreferrer"
+        aria-label="Falar com a Renovera no WhatsApp"
+        title="Falar com a Renovera"
+      >
+        <WhatsAppIcon />
+      </a>
+    </>
+  );
 }
 
 export default App;
