@@ -26,6 +26,26 @@ scripts/
   serve-dist.mjs
 ```
 
+## Assets visuais do portal
+
+Os assets historicos do site antigo ficam em:
+
+```txt
+apps/portal/public/assets/renovera/
+```
+
+Arquivos usados no portal:
+
+- `blog-nova-regulamentacao.jpg`: hero da Home;
+- `blog-aterramento.jpg`: Energia Solar, desafios e solucoes;
+- `blog-direitos-concessionaria.jpg`: Consultoria Regulatoria;
+- `blog-6-duvidas.jpg`: artigo principal de Insights;
+- `about1.png`: apoio visual para Eletropostos e energia;
+- `digital-text.png`: textura tecnica no hero, menu e rodape;
+- `logo.png` e `logo-icon-fill.png`: referencias historicas preservadas.
+
+A logo oficial em uso no header e rodape continua sendo `logo-renovera.png`.
+
 ## Rotas do portal
 
 - `/`

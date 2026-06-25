@@ -1,9 +1,10 @@
-import { FormEvent, ReactElement, useEffect, useMemo, useState } from "react";
+import { FormEvent, ReactElement, useEffect, useMemo, useRef, useState } from "react";
 
 const whatsapp = "https://wa.me/5519996514827";
 const email = "contato@renovera.com.br";
 const address = "Rua Visconde de Rio Branco, 106, São João da Boa Vista - SP";
 const assetBase = import.meta.env.BASE_URL || "/";
+const renoveraAsset = (file: string) => `${assetBase}assets/renovera/${file}`;
 
 const landingUrls = {
   solar: "https://renovera1.github.io/renovera-energia-solar/",
@@ -34,6 +35,7 @@ const solutions = [
     cta: ctas.solar,
     icon: "solar" as IconName,
     tone: "gold",
+    image: "blog-aterramento.jpg",
   },
   {
     id: "regulatorio",
@@ -47,6 +49,7 @@ const solutions = [
     cta: ctas.regulatorio,
     icon: "regulatorio" as IconName,
     tone: "forest",
+    image: "blog-direitos-concessionaria.jpg",
   },
   {
     id: "projetos",
@@ -60,6 +63,7 @@ const solutions = [
     cta: ctas.projetos,
     icon: "projetos" as IconName,
     tone: "deep",
+    image: "digital-text.png",
   },
   {
     id: "eletropostos",
@@ -73,6 +77,7 @@ const solutions = [
     cta: ctas.eletropostos,
     icon: "eletropostos" as IconName,
     tone: "green",
+    image: "about1.png",
   },
 ];
 
@@ -159,6 +164,7 @@ function NavLink({ href, children }: { href: string; children: string }) {
 function Header() {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const headerRef = useRef<HTMLElement | null>(null);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 18);
@@ -167,8 +173,25 @@ function Header() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  useEffect(() => {
+    const onKey = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setOpen(false);
+    };
+    const onPointer = (event: MouseEvent) => {
+      if (open && headerRef.current && !headerRef.current.contains(event.target as Node)) {
+        setOpen(false);
+      }
+    };
+    document.addEventListener("keydown", onKey);
+    document.addEventListener("mousedown", onPointer);
+    return () => {
+      document.removeEventListener("keydown", onKey);
+      document.removeEventListener("mousedown", onPointer);
+    };
+  }, [open]);
+
   return (
-    <header className={`site-header ${scrolled || open ? "solid" : ""}`}>
+    <header className={`site-header ${scrolled || open ? "solid" : ""}`} ref={headerRef}>
       <a className="brand" href="./" aria-label="Renovera">
         <img src={`${assetBase}logo-renovera.png`} alt="Renovera" />
       </a>
@@ -180,11 +203,13 @@ function Header() {
         <div className="mega-trigger">
           <a href="solucoes">Soluções</a>
           <div className="mega-menu">
-            {solutions.map((item) => (
-              <a key={item.id} href={item.url}>
+            {solutions.map((item, index) => (
+              <a key={item.id} href={item.url} style={{ backgroundImage: `linear-gradient(rgba(6,31,26,.86), rgba(6,31,26,.92)), url("${renoveraAsset(item.image)}")` }}>
+                <small>0{index + 1}</small>
                 <Icon name={item.icon} />
                 <strong>{item.title}</strong>
                 <span>{item.desc}</span>
+                <em>{item.cta}</em>
               </a>
             ))}
           </div>
@@ -203,6 +228,7 @@ function Header() {
 function Footer() {
   return (
     <footer className="footer">
+      <div className="footer-texture" style={{ backgroundImage: `url("${renoveraAsset("digital-text.png")}")` }} />
       <div className="footer-grid">
         <div className="footer-brand">
           <img src={`${assetBase}logo-renovera.png`} alt="Renovera" />
@@ -250,14 +276,15 @@ function SectionHead({ kicker, title, text }: { kicker?: string; title: string; 
 function Home() {
   return (
     <>
-      <section className="hero">
+      <section className="hero renovera-photo-section" style={{ backgroundImage: `url("${renoveraAsset("blog-nova-regulamentacao.jpg")}")` }}>
+        <div className="hero-texture" style={{ backgroundImage: `url("${renoveraAsset("digital-text.png")}")` }} />
         <div className="hero-copy">
           <p className="kicker">Engenharia, energia e regulação</p>
           <h1>Decisões de energia exigem clareza técnica antes do investimento.</h1>
           <p>A Renovera estrutura projetos, reduz riscos regulatórios, viabiliza infraestrutura e transforma desafios de energia em decisões mais seguras, eficientes e rentáveis.</p>
           <div className="actions"><a className="btn gold" href="#seletor">Encontrar a solução ideal</a><a className="btn ghost" href={wa("Olá, Renovera. Quero entender qual solução de energia faz sentido para minha operação.")}>Falar com a Renovera</a></div>
+          <div className="hero-indicators"><span>Engenharia aplicada</span><span>Regulação estratégica</span><span>Implantação orientada a resultado</span></div>
         </div>
-        <HeroVisual />
       </section>
       <AuthorityBand />
       <ChallengeSelector />
@@ -287,7 +314,7 @@ function ChallengeSelector() {
       <SectionHead title="Qual decisão de energia está na sua frente?" text="Escolha o desafio principal e siga para a solução técnica mais adequada." />
       <div className="challenge-layout">
         {solutions.map((s, index) => (
-          <a className={`challenge-card ${index === 0 ? "featured" : ""} tone-${s.tone}`} href={s.url} key={s.id}>
+          <a className={`challenge-card ${index === 0 ? "featured" : ""} tone-${s.tone}`} href={s.url} key={s.id} style={{ backgroundImage: `linear-gradient(120deg, rgba(7,45,37,.94), rgba(7,45,37,.58)), url("${renoveraAsset(s.image)}")` }}>
             <span className="card-number">0{index + 1}</span>
             <Icon name={s.icon} />
             <small>{s.title}</small>
@@ -329,7 +356,7 @@ function SolutionBlocks() {
       <SectionHead title="Soluções principais" text="Cada frente resolve uma parte da cadeia de decisão energética: viabilidade, conexão, projeto, implantação e operação." />
       <div className="solution-bento">
         {solutions.map((s, index) => (
-          <article className={`solution-panel tone-${s.tone} ${index === 1 ? "wide" : ""}`} key={s.id}>
+          <article className={`solution-panel tone-${s.tone} ${index === 0 || index === 3 ? "wide" : ""}`} key={s.id} style={{ backgroundImage: `linear-gradient(120deg, rgba(6,31,26,.94), rgba(6,31,26,.58)), url("${renoveraAsset(s.image)}")` }}>
             <Icon name={s.icon} />
             <small>{s.eyebrow}</small>
             <h3>{s.title}</h3>
@@ -389,7 +416,7 @@ function InsightsPreview() {
     <section className="section insights-preview">
       <SectionHead title="Inteligência aplicada ao setor elétrico." text="Conteúdo técnico como apoio para decisões de investimento, conexão, infraestrutura e operação." />
       <div className="magazine-grid">
-        <ArticleCard article={articles[0]} featured />
+        <ArticleCard article={articles[0]} featured image="blog-6-duvidas.jpg" />
         <div className="magazine-side">
           {articles.slice(1, 3).map((article) => <ArticleCard article={article} key={article.title} />)}
         </div>
@@ -398,9 +425,9 @@ function InsightsPreview() {
   );
 }
 
-function ArticleCard({ article, featured = false }: { article: typeof articles[number]; featured?: boolean }) {
+function ArticleCard({ article, featured = false, image }: { article: typeof articles[number]; featured?: boolean; image?: string }) {
   return (
-    <article className={`article-card ${featured ? "featured" : ""}`}>
+    <article className={`article-card ${featured ? "featured" : ""}`} style={image ? { backgroundImage: `linear-gradient(140deg, rgba(6,31,26,.94), rgba(6,31,26,.56)), url("${renoveraAsset(image)}")` } : undefined}>
       <span>{article.category}</span>
       <h3>{article.title}</h3>
       <p>{article.summary}</p>
@@ -497,7 +524,7 @@ function InsightsPage() {
     <main className="page-main">
       <PageHero title="Renovera Insights" text="Central editorial sobre regulação, energia solar, projetos elétricos, mobilidade elétrica, Mercado Livre e gestão de energia." />
       <div className="search-row"><input value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Buscar análise técnica" /><select value={cat} onChange={(e) => setCat(e.target.value)}>{categories.map((c) => <option key={c}>{c}</option>)}</select></div>
-      <div className="magazine-grid">{shown[0] && <ArticleCard article={shown[0]} featured />}<div className="magazine-side">{shown.slice(1).map((a) => <ArticleCard article={a} key={a.title} />)}</div></div>
+      <div className="magazine-grid">{shown[0] && <ArticleCard article={shown[0]} featured image="blog-6-duvidas.jpg" />}<div className="magazine-side">{shown.slice(1).map((a) => <ArticleCard article={a} key={a.title} />)}</div></div>
       <FinalCta />
     </main>
   );
@@ -561,6 +588,28 @@ function LegalPage({ type }: { type: "privacy" | "terms" | "ethics" }) {
 
 function App() {
   const [path, setPath] = useState(routePath());
+  useEffect(() => {
+    const targets = Array.from(document.querySelectorAll("section, article, .page-hero, .solution-detail"));
+    targets.forEach((target, index) => {
+      target.classList.add("reveal");
+      if (index % 3 === 1) target.classList.add("reveal-delay-1");
+      if (index % 3 === 2) target.classList.add("reveal-delay-2");
+    });
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      targets.forEach((target) => target.classList.add("is-visible"));
+      return;
+    }
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("is-visible");
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12 });
+    targets.forEach((target) => observer.observe(target));
+    return () => observer.disconnect();
+  }, [path]);
   useEffect(() => {
     const onClick = (event: MouseEvent) => {
       const link = (event.target as HTMLElement).closest("a");
