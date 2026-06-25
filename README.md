@@ -36,15 +36,17 @@ apps/portal/public/assets/renovera/
 
 Arquivos usados no portal:
 
-- `blog-nova-regulamentacao.jpg`: hero da Home;
+- `fachada-renovera.jpg`: hero da Home;
 - `blog-aterramento.jpg`: Energia Solar, desafios e solucoes;
 - `blog-direitos-concessionaria.jpg`: Consultoria Regulatoria;
+- `blog-nova-regulamentacao.jpg`: blog legado da Home;
 - `blog-6-duvidas.jpg`: artigo principal de Insights;
 - `about1.png`: apoio visual para Eletropostos e energia;
 - `digital-text.png`: textura tecnica no hero, menu e rodape;
 - `logo.png` e `logo-icon-fill.png`: referencias historicas preservadas.
+- `parceiros/logo-1.png` a `parceiros/logo-13.png`: distribuidores e marcas parceiras.
 
-A logo oficial em uso no header e rodape continua sendo `logo-renovera.png`.
+A logo oficial em uso no header, hero lateral e rodape vem dos arquivos historicos `logo.png` e `logo-icon-fill.png`.
 
 ## Rotas do portal
 

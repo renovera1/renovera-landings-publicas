@@ -2,6 +2,7 @@ import { FormEvent, ReactElement, useEffect, useMemo, useRef, useState } from "r
 
 const whatsapp = "https://wa.me/5519996514827";
 const email = "contato@renovera.com.br";
+const complianceEmail = "compliance@renovera.com.br";
 const address = "Rua Visconde de Rio Branco, 106, São João da Boa Vista - SP";
 const assetBase = import.meta.env.BASE_URL || "/";
 const renoveraAsset = (file: string) => `${assetBase}assets/renovera/${file}`;
@@ -108,6 +109,42 @@ const articles = [
   { category: "Gestão e eficiência de energia", title: "Documentos que aceleram uma análise técnica de energia", summary: "Uma lista prática para iniciar diagnósticos com mais precisão e menos retrabalho.", read: "4 min" },
 ];
 
+const legacyPosts = [
+  {
+    date: "24 de dezembro de 2025",
+    category: "Regulação e concessionárias",
+    title: 'REN 1.000/2021: O "Glossário" do Integrador para Exigir seus Direitos na Concessionária',
+    image: "blog-direitos-concessionaria.jpg",
+    href: "https://renovera.com.br/blog-direitos-concessionaria.html",
+  },
+  {
+    date: "17 de dezembro de 2025",
+    category: "Energia Solar",
+    title: "As 6 REN 1.059/2023: O Guia Prático da Nova Regulamentação para Autoconsumo e Geração Compartilhada",
+    image: "blog-nova-regulamentacao.jpg",
+    href: "https://renovera.com.br/blog-nova-regulamentacao.html",
+  },
+  {
+    date: "10 de dezembro de 2025",
+    category: "Energia Solar",
+    title: "As 6 Dúvidas Mais Comuns de Quem Pensa em Instalar Energia Solar",
+    image: "blog-6-duvidas.jpg",
+    href: "https://renovera.com.br/blog-6-duvidas.html",
+  },
+  {
+    date: "03 de dezembro de 2025",
+    category: "Projetos Elétricos",
+    title: "Aterramento e Equipotencialização em Sistemas Fotovoltaicos: O Guia para a NBR 5410",
+    image: "blog-aterramento.jpg",
+    href: "https://renovera.com.br/blog-aterramento.html",
+  },
+];
+
+const partnerGroups = [
+  { title: "Distribuidores Parceiros", logos: [1, 2, 3, 4, 5, 6, 7] },
+  { title: "Marcas Parceiras", logos: [8, 9, 10, 11, 12, 13] },
+];
+
 const meta: Record<string, { title: string; description: string }> = {
   "/": { title: "Renovera | Engenharia, energia e regulação", description: "Portal institucional da Renovera para soluções de energia, engenharia elétrica, regulação e mobilidade elétrica." },
   "/solucoes": { title: "Soluções Renovera", description: "Energia solar, consultoria regulatória, projetos elétricos e eletropostos com escopo técnico claro." },
@@ -193,7 +230,7 @@ function Header() {
   return (
     <header className={`site-header ${scrolled || open ? "solid" : ""}`} ref={headerRef}>
       <a className="brand" href="./" aria-label="Renovera">
-        <img src={`${assetBase}logo-renovera.png`} alt="Renovera" />
+        <img src={renoveraAsset("logo.png")} alt="Renovera" />
       </a>
       <button className="menu-button" type="button" onClick={() => setOpen(!open)} aria-expanded={open} aria-label="Abrir menu">
         <span />
@@ -228,15 +265,14 @@ function Header() {
 function Footer() {
   return (
     <footer className="footer">
-      <div className="footer-texture" style={{ backgroundImage: `url("${renoveraAsset("digital-text.png")}")` }} />
       <div className="footer-grid">
         <div className="footer-brand">
-          <img src={`${assetBase}logo-renovera.png`} alt="Renovera" />
+          <img src={renoveraAsset("logo.png")} alt="Renovera" />
           <p>Engenharia, energia e regulação para decisões técnicas, comerciais e operacionais que exigem clareza.</p>
         </div>
-        <div><h3>Soluções</h3>{solutions.map((s) => <a key={s.id} href={s.url}>{s.title}</a>)}</div>
-        <div><h3>Institucional</h3><a href="sobre">Sobre</a><a href="cases">Cases</a><a href="insights">Insights</a><a href="contato">Contato</a><a href="canal-de-etica">Canal de Ética</a></div>
-        <div><h3>Contato</h3><a href={whatsapp}>+55 19 99651-4827</a><a href={`mailto:${email}`}>{email}</a><p>{address}</p></div>
+        <div><h3>Menu</h3><a href="solucoes">Soluções</a><a href="segmentos">Segmentos</a><a href="cases">Cases</a><a href="insights">Insights</a><a href="sobre">A Renovera</a></div>
+        <div><h3>Contato</h3><a href={`mailto:${email}`}>{email}</a><a href={whatsapp}>+55 (19) 99651-4827</a><p>Atendimento: Segunda a Sexta</p></div>
+        <div><h3>Denúncias</h3><p>Canal seguro, confidencial e orientado às diretrizes de integridade da Renovera.</p><a className="footer-compliance" href={`mailto:${complianceEmail}`}>COMPLIANCE@RENOVERA.COM.BR</a></div>
       </div>
       <div className="footer-bottom">
         <span>© 2026 Renovera. Todos os direitos reservados.</span>
@@ -245,6 +281,82 @@ function Footer() {
         <a href="canal-de-etica">Canal de Ética</a>
       </div>
     </footer>
+  );
+}
+
+function HeroSidebar() {
+  return (
+    <aside className="hero-sidebar" aria-label="Identidade Renovera">
+      <img src={renoveraAsset("logo-icon-fill.png")} alt="" />
+      <span>RENOVAÇÃO EM ENERGIA</span>
+      <a href="solucoes" aria-label="Abrir menu de soluções"><span /></a>
+    </aside>
+  );
+}
+
+function HeroSolutionIndicators() {
+  return (
+    <nav className="hero-solutions" aria-label="Soluções Renovera">
+      {solutions.map((solution, index) => (
+        <a href={solution.url} key={solution.id}>
+          <span>{String(index + 1).padStart(2, "0")}</span>
+          {solution.title}
+        </a>
+      ))}
+    </nav>
+  );
+}
+
+function PartnersSection() {
+  return (
+    <section className="section partners-section">
+      <SectionHead
+        title="Ecossistema que fortalece cada projeto."
+        text="A Renovera atua com distribuidores e marcas que ajudam a estruturar soluções técnicas mais consistentes, seguras e eficientes."
+      />
+      <div className="partner-groups">
+        {partnerGroups.map((group) => (
+          <article key={group.title} className="partner-group">
+            <h3>{group.title}</h3>
+            <div className="partner-logos">
+              {group.logos.map((logo) => (
+                <div key={logo} className="partner-logo">
+                  <img src={renoveraAsset(`parceiros/logo-${logo}.png`)} alt={`${group.title} ${logo}`} loading="lazy" />
+                </div>
+              ))}
+            </div>
+          </article>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function LegacyBlogSection() {
+  const [featured, ...side] = legacyPosts;
+  return (
+    <section className="section legacy-blog">
+      <SectionHead title="Análises para decidir com mais segurança." text="Conteúdos técnicos da Renovera sobre regulação, energia solar e infraestrutura elétrica." />
+      <div className="legacy-blog-grid">
+        <a className="legacy-post featured" href={featured.href} style={{ backgroundImage: `linear-gradient(180deg, rgba(3,49,24,.08), rgba(3,49,24,.9)), url("${renoveraAsset(featured.image)}")` }}>
+          <span>{featured.category}</span>
+          <small>{featured.date}</small>
+          <h3>{featured.title}</h3>
+          <em>Ler análise</em>
+        </a>
+        <div className="legacy-post-list">
+          {side.map((post) => (
+            <a className="legacy-post" href={post.href} key={post.title} style={{ backgroundImage: `linear-gradient(180deg, rgba(3,49,24,.18), rgba(3,49,24,.88)), url("${renoveraAsset(post.image)}")` }}>
+              <span>{post.category}</span>
+              <small>{post.date}</small>
+              <h3>{post.title}</h3>
+              <em>Ler análise</em>
+            </a>
+          ))}
+        </div>
+      </div>
+      <a className="btn dark blog-all" href="insights">Ver todos os conteúdos</a>
+    </section>
   );
 }
 
@@ -276,23 +388,26 @@ function SectionHead({ kicker, title, text }: { kicker?: string; title: string; 
 function Home() {
   return (
     <>
-      <section className="hero renovera-photo-section" style={{ backgroundImage: `url("${renoveraAsset("blog-nova-regulamentacao.jpg")}")` }}>
+      <section className="hero home-hero renovera-photo-section" style={{ backgroundImage: `url("${renoveraAsset("fachada-renovera.jpg")}")` }}>
+        <HeroSidebar />
         <div className="hero-texture" style={{ backgroundImage: `url("${renoveraAsset("digital-text.png")}")` }} />
         <div className="hero-copy">
-          <p className="kicker">Engenharia, energia e regulação</p>
-          <h1>Decisões de energia exigem clareza técnica antes do investimento.</h1>
-          <p>A Renovera estrutura projetos, reduz riscos regulatórios, viabiliza infraestrutura e transforma desafios de energia em decisões mais seguras, eficientes e rentáveis.</p>
-          <div className="actions"><a className="btn gold" href="#seletor">Encontrar a solução ideal</a><a className="btn ghost" href={wa("Olá, Renovera. Quero entender qual solução de energia faz sentido para minha operação.")}>Falar com a Renovera</a></div>
+          <p className="kicker">RENOVERA · ENERGIA, ENGENHARIA E REGULAÇÃO</p>
+          <h1>Decisões de energia exigem clareza técnica.</h1>
+          <p>A Renovera conecta energia solar, infraestrutura elétrica, regulação e mobilidade para transformar desafios complexos em decisões mais seguras, eficientes e rentáveis.</p>
+          <div className="actions"><a className="btn gold" href="#seletor">Encontrar minha solução</a><a className="btn ghost" href={wa("Olá, Renovera. Quero entender qual solução de energia faz sentido para minha operação.")}>Falar com a Renovera</a></div>
           <div className="hero-indicators"><span>Engenharia aplicada</span><span>Regulação estratégica</span><span>Implantação orientada a resultado</span></div>
         </div>
+        <HeroSolutionIndicators />
       </section>
       <AuthorityBand />
       <ChallengeSelector />
       <Method />
       <SolutionBlocks />
+      <PartnersSection />
       <SegmentPreview />
       <CasesPreview />
-      <InsightsPreview />
+      <LegacyBlogSection />
       <FinalCta />
     </>
   );
@@ -558,9 +673,10 @@ function ContactPage() {
   }
   return (
     <main className="page-main">
-      <PageHero title="Conte qual decisão de energia você precisa tomar." text="A triagem organiza as informações iniciais e abre uma mensagem estruturada para o WhatsApp comercial da Renovera." />
+      <PageHero title="Entre em Contato" text="Fale com a Renovera para dúvidas comerciais, projetos de energia, demandas regulatórias e canais institucionais." />
       <div className="contact-layout">
         <form className="contact-form" onSubmit={submit}>
+          <h2>Envie sua mensagem</h2>
           <label>Nome*<input value={form.nome} onChange={(e) => set("nome", e.target.value)} /></label>
           <label>Empresa<input value={form.empresa} onChange={(e) => set("empresa", e.target.value)} /></label>
           <label>E-mail*<input value={form.email} onChange={(e) => set("email", e.target.value)} /></label>
@@ -571,7 +687,29 @@ function ContactPage() {
           <label>Descrição do desafio*<textarea value={form.desafio} onChange={(e) => set("desafio", e.target.value)} /></label>
           <button className="btn gold" type="submit">Enviar meu desafio para análise</button>
         </form>
-        <aside className="contact-aside"><h2>Contato oficial</h2><a href={whatsapp}>+55 19 99651-4827</a><a href={`mailto:${email}`}>{email}</a><p>{address}</p></aside>
+        <aside className="contact-aside">
+          <h2>Contato oficial</h2>
+          <p>Rua Visconde do Rio Branco, n.106,<br />Centro, São João da Boa Vista - SP,<br />CEP: 13870-180</p>
+          <a href={whatsapp}>+55 (19) 99651-4827</a>
+          <a href="tel:+551931950160">+55 (19) 3195-0160</a>
+          <a href={`mailto:${email}`}>{email}</a>
+          <a href={`mailto:${complianceEmail}`}>{complianceEmail}</a>
+          <div className="compliance-box">
+            <h3>Canal de denúncias</h3>
+            <p>Canal seguro para relatos de integridade, com tratamento confidencial, respeito à LGPD e encaminhamento institucional adequado.</p>
+            <a className="btn light small" href={`mailto:${complianceEmail}`}>Enviar relato</a>
+          </div>
+          <div className="faq-mini">
+            <h3>FAQ institucional</h3>
+            <p><b>O formulário substitui análise técnica?</b> Não. Ele organiza a triagem inicial para direcionamento da equipe.</p>
+            <p><b>Como tratar dados pessoais?</b> As informações são usadas para atendimento, retorno e obrigações legais aplicáveis.</p>
+          </div>
+          <div className="institutional-links">
+            <a href="politica-de-privacidade">Política de Privacidade</a>
+            <a href="termos-de-uso">Termos de Uso</a>
+            <a href="canal-de-etica">Canal de Ética</a>
+          </div>
+        </aside>
       </div>
     </main>
   );
@@ -586,8 +724,17 @@ function LegalPage({ type }: { type: "privacy" | "terms" | "ethics" }) {
   return <main className="page-main"><PageHero title={content[0]} text={content[1]} /><article className="article-body"><p>Contato oficial: <a href={`mailto:${email}`}>{email}</a>.</p><p>Endereço: {address}.</p></article></main>;
 }
 
+function BackToTop({ visible }: { visible: boolean }) {
+  return (
+    <button className={`back-to-top ${visible ? "visible" : ""}`} type="button" aria-label="Voltar ao início da página" onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}>
+      ↑
+    </button>
+  );
+}
+
 function App() {
   const [path, setPath] = useState(routePath());
+  const [showTop, setShowTop] = useState(false);
   useEffect(() => {
     const targets = Array.from(document.querySelectorAll("section, article, .page-hero, .solution-detail"));
     targets.forEach((target, index) => {
@@ -632,6 +779,12 @@ function App() {
     document.title = data.title;
     document.querySelector('meta[name="description"]')?.setAttribute("content", data.description);
   }, [path]);
+  useEffect(() => {
+    const onScroll = () => setShowTop(window.scrollY > 500);
+    onScroll();
+    window.addEventListener("scroll", onScroll);
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
   const page = useMemo(() => {
     if (path === "/solucoes") return <SolutionsPage />;
     if (path === "/segmentos") return <SegmentsPage />;
@@ -644,7 +797,7 @@ function App() {
     if (path === "/canal-de-etica") return <LegalPage type="ethics" />;
     return <Home />;
   }, [path]);
-  return <><Header />{page}<Footer /><a className="whatsapp-float" href={wa("Olá, Renovera. Gostaria de falar com um especialista.")} aria-label="Falar no WhatsApp"><WhatsAppIcon /></a></>;
+  return <><Header />{page}<Footer /><BackToTop visible={showTop} /><a className="whatsapp-float" href={wa("Olá, Renovera. Gostaria de falar com um especialista.")} aria-label="Falar no WhatsApp"><WhatsAppIcon /><span>Falar com a Renovera</span></a></>;
 }
 
 export default App;
