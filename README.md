@@ -143,12 +143,17 @@ https://renovera1.github.io/renovera-landings-publicas/
 Os objetos de cases e artigos iniciais ficam em `apps/portal/src/App.tsx`. Eles usam conteudo institucional neutro para evitar numeros, clientes, certificacoes ou resultados inventados. Ao receber cases e artigos reais, atualize esses objetos com os dados validados.
 
 
-## Paginas legadas isoladas
+## Portal unificado
 
-As rotas `/sobre`, `/insights`, `/blog`, `/contato` e os artigos legados de blog sao servidos como HTML estatico gerado a partir do site original da Renovera.
+As rotas principais usam um unico header superior, rodape global claro, WhatsApp flutuante e botao de voltar ao topo.
 
-Arquivos:
+Rotas principais:
 
-- `apps/portal/public/legacy-pages/`: HTMLs originais reescritos para o GitHub Pages;
-- `apps/portal/public/assets/renovera-legado/`: CSS, JS, imagens, fontes e icones do site legado;
-- `scripts/compose-dist.mjs`: substitui essas rotas no `dist/` depois do build da SPA.
+- `/`: Inicio;
+- `/solucoes`: Solucoes;
+- `/cases`: Cases;
+- `/insights`: Blog;
+- `/sobre`: A Renovera;
+- `/contato`: Contato.
+
+Os HTMLs em `apps/portal/public/legacy-pages/` sao usados como fonte de conteudo para Blog, A Renovera, Contato e artigos, sem publicar a barra lateral antiga.

@@ -1,4 +1,4 @@
-import { FormEvent, ReactElement, useEffect, useMemo, useRef, useState } from "react";
+import { ReactElement, useEffect, useMemo, useRef, useState } from "react";
 
 const whatsapp = "https://wa.me/5519996514827";
 const email = "contato@renovera.com.br";
@@ -150,7 +150,12 @@ const meta: Record<string, { title: string; description: string }> = {
   "/solucoes": { title: "Soluções Renovera", description: "Energia solar, consultoria regulatória, projetos elétricos e eletropostos com escopo técnico claro." },
   "/segmentos": { title: "Segmentos atendidos | Renovera", description: "Soluções de energia para indústrias, comércios, agronegócio, condomínios, integradores e operadores." },
   "/cases": { title: "Cases e projetos | Renovera", description: "Estrutura preparada para cases técnicos da Renovera, sem dados comerciais inventados." },
-  "/insights": { title: "Renovera Insights", description: "Central de conteúdos sobre regulação, energia solar, projetos elétricos e mobilidade elétrica." },
+  "/insights": { title: "Blog | Renovera", description: "Conteúdos originais da Renovera sobre energia solar, regulação, concessionárias e infraestrutura elétrica." },
+  "/blog": { title: "Blog | Renovera", description: "Conteúdos originais da Renovera sobre energia solar, regulação, concessionárias e infraestrutura elétrica." },
+  "/blog-direitos-concessionaria": { title: "Direitos perante a concessionária | Renovera", description: "Artigo Renovera sobre direitos do consumidor perante a concessionária." },
+  "/blog-nova-regulamentacao": { title: "Nova regulamentação e energia solar | Renovera", description: "Artigo Renovera sobre regulamentação e energia solar." },
+  "/blog-6-duvidas": { title: "6 dúvidas sobre energia solar | Renovera", description: "Artigo Renovera com dúvidas frequentes sobre energia solar." },
+  "/blog-aterramento": { title: "Aterramento e segurança elétrica | Renovera", description: "Artigo Renovera sobre aterramento e segurança elétrica." },
   "/sobre": { title: "Sobre a Renovera", description: "Conheça a atuação técnica da Renovera em engenharia, energia e regulação." },
   "/contato": { title: "Contato | Renovera", description: "Triagem comercial da Renovera via WhatsApp e e-mail." },
 };
@@ -194,14 +199,17 @@ function WhatsAppIcon() {
 
 function NavLink({ href, children }: { href: string; children: string }) {
   const current = routePath();
-  const normalized = href === "./" ? "/" : `/${href.replace(/^\/+/, "")}`;
-  return <a href={href} className={current === normalized ? "active" : ""}>{children}</a>;
+  const normalized = href === "./" || href === "/" ? "/" : `/${href.replace(/^\/+/, "")}`;
+  const target = normalized === "/" ? assetBase : `${assetBase}${normalized.replace(/^\/+/, "")}`;
+  const active = current === normalized || (normalized === "/insights" && current.startsWith("/blog"));
+  return <a href={target} className={active ? "active" : ""}>{children}</a>;
 }
 
 function Header() {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const headerRef = useRef<HTMLElement | null>(null);
+  const currentPath = routePath();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 18);
@@ -215,9 +223,7 @@ function Header() {
       if (event.key === "Escape") setOpen(false);
     };
     const onPointer = (event: MouseEvent) => {
-      if (open && headerRef.current && !headerRef.current.contains(event.target as Node)) {
-        setOpen(false);
-      }
+      if (open && headerRef.current && !headerRef.current.contains(event.target as Node)) setOpen(false);
     };
     document.addEventListener("keydown", onKey);
     document.addEventListener("mousedown", onPointer);
@@ -228,32 +234,18 @@ function Header() {
   }, [open]);
 
   return (
-    <header className={`site-header ${scrolled || open ? "solid" : ""}`} ref={headerRef}>
-      <a className="brand" href="./" aria-label="Renovera">
+    <header className={`site-header ${currentPath !== "/" || scrolled || open ? "solid" : ""}`} ref={headerRef}>
+      <a className="brand" href={assetBase} aria-label="Renovera">
         <img src={renoveraAsset("logo.png")} alt="Renovera" />
       </a>
       <button className="menu-button" type="button" onClick={() => setOpen(!open)} aria-expanded={open} aria-label="Abrir menu">
         <span />
       </button>
-      <nav className={open ? "open" : ""} aria-label="Menu principal">
-        <NavLink href="./">Início</NavLink>
-        <div className="mega-trigger">
-          <a href="solucoes">Soluções</a>
-          <div className="mega-menu">
-            {solutions.map((item, index) => (
-              <a key={item.id} href={item.url} style={{ backgroundImage: `linear-gradient(rgba(6,31,26,.86), rgba(6,31,26,.92)), url("${renoveraAsset(item.image)}")` }}>
-                <small>0{index + 1}</small>
-                <Icon name={item.icon} />
-                <strong>{item.title}</strong>
-                <span>{item.desc}</span>
-                <em>{item.cta}</em>
-              </a>
-            ))}
-          </div>
-        </div>
-        <NavLink href="segmentos">Segmentos</NavLink>
+      <nav className={open ? "open" : ""} aria-label="Menu principal" onClick={(event) => { if ((event.target as HTMLElement).closest("a")) setOpen(false); }}>
+        <NavLink href="/">Início</NavLink>
+        <NavLink href="solucoes">Soluções</NavLink>
         <NavLink href="cases">Cases</NavLink>
-        <NavLink href="insights">Insights</NavLink>
+        <NavLink href="insights">Blog</NavLink>
         <NavLink href="sobre">A Renovera</NavLink>
         <NavLink href="contato">Contato</NavLink>
       </nav>
@@ -270,27 +262,17 @@ function Footer() {
           <img src={renoveraAsset("logo.png")} alt="Renovera" />
           <p>Engenharia, energia e regulação para decisões técnicas, comerciais e operacionais que exigem clareza.</p>
         </div>
-        <div><h3>Menu</h3><a href="solucoes">Soluções</a><a href="segmentos">Segmentos</a><a href="cases">Cases</a><a href="insights">Insights</a><a href="sobre">A Renovera</a></div>
-        <div><h3>Contato</h3><a href={`mailto:${email}`}>{email}</a><a href={whatsapp}>+55 (19) 99651-4827</a><p>Atendimento: Segunda a Sexta</p></div>
-        <div><h3>Denúncias</h3><p>Canal seguro, confidencial e orientado às diretrizes de integridade da Renovera.</p><a className="footer-compliance" href={`mailto:${complianceEmail}`}>COMPLIANCE@RENOVERA.COM.BR</a></div>
+        <div><h3>Menu</h3><a href={assetBase}>Início</a><a href={`${assetBase}solucoes`}>Soluções</a><a href={`${assetBase}cases`}>Cases</a><a href={`${assetBase}insights`}>Blog</a><a href={`${assetBase}sobre`}>A Renovera</a><a href={`${assetBase}contato`}>Contato</a></div>
+        <div><h3>Contato</h3><a href={`mailto:${email}`}>{email}</a><p>Atendimento: Segunda a Sexta</p></div>
+        <div><h3>Denúncias</h3><p>Canal seguro e confidencial para denúncias</p><a className="footer-compliance" href={`mailto:${complianceEmail}`}>COMPLIANCE@RENOVERA.COM.BR</a></div>
       </div>
       <div className="footer-bottom">
         <span>© 2026 Renovera. Todos os direitos reservados.</span>
-        <a href="politica-de-privacidade">Política de Privacidade</a>
-        <a href="termos-de-uso">Termos de Uso</a>
-        <a href="canal-de-etica">Canal de Ética</a>
+        <a href={`${assetBase}politica-de-privacidade`}>Política de Privacidade</a>
+        <a href={`${assetBase}termos-de-uso`}>Termos de Uso</a>
+        <a href={`${assetBase}canal-de-etica`}>Canal de Ética</a>
       </div>
     </footer>
-  );
-}
-
-function HeroSidebar() {
-  return (
-    <aside className="hero-sidebar" aria-label="Identidade Renovera">
-      <img src={renoveraAsset("logo-icon-fill.png")} alt="" />
-      <span>RENOVAÇÃO EM ENERGIA</span>
-      <a href="solucoes" aria-label="Abrir menu de soluções"><span /></a>
-    </aside>
   );
 }
 
@@ -389,9 +371,8 @@ function Home() {
   return (
     <>
       <section className="hero home-hero renovera-photo-section" style={{ backgroundImage: `url("${renoveraAsset("fachada-renovera.jpg")}")` }}>
-        <HeroSidebar />
         <div className="hero-texture" style={{ backgroundImage: `url("${renoveraAsset("digital-text.png")}")` }} />
-        <div className="hero-copy">
+        <div className="hero-copy hero-content">
           <p className="kicker">RENOVERA · ENERGIA, ENGENHARIA E REGULAÇÃO</p>
           <h1>Decisões de energia exigem clareza técnica.</h1>
           <p>A Renovera conecta energia solar, infraestrutura elétrica, regulação e mobilidade para transformar desafios complexos em decisões mais seguras, eficientes e rentáveis.</p>
@@ -625,94 +606,84 @@ function CasesPage() {
 }
 
 function InsightsPage() {
-  const params = new URLSearchParams(window.location.search);
-  const articleTitle = params.get("article");
-  const [query, setQuery] = useState("");
-  const [cat, setCat] = useState("Todos");
-  const categories = ["Todos", ...Array.from(new Set(articles.map((a) => a.category)))];
-  const shown = articles.filter((a) => (cat === "Todos" || a.category === cat) && `${a.title} ${a.summary}`.toLowerCase().includes(query.toLowerCase()));
-  const article = articles.find((a) => a.title === articleTitle);
-  if (article) {
-    return <main className="page-main"><PageHero title={article.title} text={article.summary} /><article className="article-body"><span>{article.category} - {article.read}</span><p>Este conteúdo inicial é uma estrutura institucional para cadastro editorial. Ele delimita tema, intenção e abordagem, sem afirmar publicação externa, resultados ou dados não validados.</p><p>Novos artigos podem ser cadastrados no objeto <code>articles</code> do app institucional.</p><a className="text-cta" href="insights">Voltar para Insights</a></article></main>;
-  }
-  return (
-    <main className="page-main">
-      <PageHero title="Renovera Insights" text="Central editorial sobre regulação, energia solar, projetos elétricos, mobilidade elétrica, Mercado Livre e gestão de energia." />
-      <div className="search-row"><input value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Buscar análise técnica" /><select value={cat} onChange={(e) => setCat(e.target.value)}>{categories.map((c) => <option key={c}>{c}</option>)}</select></div>
-      <div className="magazine-grid">{shown[0] && <ArticleCard article={shown[0]} featured image="blog-6-duvidas.jpg" />}<div className="magazine-side">{shown.slice(1).map((a) => <ArticleCard article={a} key={a.title} />)}</div></div>
-      <FinalCta />
-    </main>
-  );
+  return <UnifiedLegacyPage page="insights" eyebrow="Blog" title="Blog" text="Conteúdos originais da Renovera sobre energia solar, regulação, concessionárias e infraestrutura elétrica." />;
 }
 
 function AboutPage() {
-  const items = [
-    ["Propósito", "Apoiar decisões energéticas com engenharia aplicada, visão regulatória e linguagem comercial clara."],
-    ["Forma de atuação", "Diagnóstico, viabilidade, projeto, documentação, interface técnica, implantação e acompanhamento."],
-    ["Compromisso técnico", "Escopos defensáveis, documentação clara e comunicação sem promessas de aprovação garantida."],
-    ["Ética", "Atuação responsável, transparência nas premissas e respeito aos limites de cada análise."],
-    ["Visão de longo prazo", "Projetos pensados para operação, expansão, proteção de ativos e resiliência."],
-    ["Engenharia e regulação", "Integração entre infraestrutura, concessionárias, normas e estratégia de investimento."],
-  ];
-  return <main className="page-main"><PageHero title="Engenharia que conecta estratégia, energia e execução." text="A Renovera estrutura projetos, destrava conexões, reduz riscos técnicos e transforma energia em resultado operacional." /><div className="narrative-grid">{items.map(([title, text]) => <article key={title}><span>{title}</span><p>{text}</p></article>)}</div><FinalCta /></main>;
+  return <UnifiedLegacyPage page="sobre" eyebrow="A Renovera" title="Nossa História" text="Transformando o mercado de energia com engenharia, regulação e clareza técnica." />;
 }
 
 function ContactPage() {
-  const [form, setForm] = useState({ nome: "", empresa: "", email: "", whats: "", cidade: "", segmento: "", solucao: "", desafio: "" });
-  const set = (key: keyof typeof form, value: string) => setForm((old) => ({ ...old, [key]: value }));
-  function submit(event: FormEvent) {
-    event.preventDefault();
-    const required = ["nome", "email", "whats", "cidade", "segmento", "solucao", "desafio"] as const;
-    const missing = required.filter((key) => !form[key].trim());
-    if (missing.length) {
-      alert("Preencha os campos obrigatórios antes de abrir o WhatsApp.");
-      return;
-    }
-    const message = `Olá, Renovera. Quero enviar meu desafio para análise.\nNome: ${form.nome}\nEmpresa: ${form.empresa || "Não informado"}\nE-mail: ${form.email}\nWhatsApp: ${form.whats}\nCidade/UF: ${form.cidade}\nSegmento: ${form.segmento}\nSolução de interesse: ${form.solucao}\nDescrição do desafio: ${form.desafio}`;
-    window.open(wa(message), "_blank", "noopener,noreferrer");
-  }
+  return <UnifiedLegacyPage page="contato" eyebrow="Contato" title="Entre em Contato" text="Canais oficiais para falar com a Renovera sobre energia, projetos, regulação e atendimento institucional." />;
+}
+
+
+const legacyPageFiles: Record<string, string> = {
+  sobre: "sobre.html",
+  insights: "blog.html",
+  contato: "contato.html",
+  "blog-direitos-concessionaria": "blog-direitos-concessionaria.html",
+  "blog-nova-regulamentacao": "blog-nova-regulamentacao.html",
+  "blog-6-duvidas": "blog-6-duvidas.html",
+  "blog-aterramento": "blog-aterramento.html",
+};
+
+function cleanLegacyHtml(raw: string) {
+  const doc = new DOMParser().parseFromString(raw, "text/html");
+  doc.querySelectorAll("header, footer, script, style, .scroll-top-arrow, .wa__btn_popup, .wa__popup_chat_box, .wa__popup_powered").forEach((node) => node.remove());
+  doc.querySelectorAll("[style]").forEach((node) => {
+    const el = node as HTMLElement;
+    el.style.removeProperty("visibility");
+    el.style.removeProperty("animation-name");
+  });
+  doc.querySelectorAll("a[href]").forEach((node) => {
+    const link = node as HTMLAnchorElement;
+    const href = link.getAttribute("href") || "";
+    if (href.includes("/index.html")) link.setAttribute("href", "./");
+    if (href.includes("/sobre.html")) link.setAttribute("href", "sobre");
+    if (href.includes("/blog.html")) link.setAttribute("href", "insights");
+    if (href.includes("/contato.html")) link.setAttribute("href", "contato");
+    if (href.includes("/blog-direitos-concessionaria")) link.setAttribute("href", "blog-direitos-concessionaria");
+    if (href.includes("/blog-nova-regulamentacao")) link.setAttribute("href", "blog-nova-regulamentacao");
+    if (href.includes("/blog-6-duvidas")) link.setAttribute("href", "blog-6-duvidas");
+    if (href.includes("/blog-aterramento")) link.setAttribute("href", "blog-aterramento");
+  });
+  return doc.body.innerHTML;
+}
+
+function UnifiedLegacyPage({ page, eyebrow, title, text }: { page: keyof typeof legacyPageFiles; eyebrow: string; title: string; text: string }) {
+  const [html, setHtml] = useState("");
+  useEffect(() => {
+    let active = true;
+    fetch(`${assetBase}legacy-pages/${legacyPageFiles[page]}`)
+      .then((response) => response.text())
+      .then((raw) => { if (active) setHtml(cleanLegacyHtml(raw)); })
+      .catch(() => { if (active) setHtml("<p>Conteúdo temporariamente indisponível.</p>"); });
+    return () => { active = false; };
+  }, [page]);
   return (
-    <main className="page-main">
-      <PageHero title="Entre em Contato" text="Fale com a Renovera para dúvidas comerciais, projetos de energia, demandas regulatórias e canais institucionais." />
-      <div className="contact-layout">
-        <form className="contact-form" onSubmit={submit}>
-          <h2>Envie sua mensagem</h2>
-          <label>Nome*<input value={form.nome} onChange={(e) => set("nome", e.target.value)} /></label>
-          <label>Empresa<input value={form.empresa} onChange={(e) => set("empresa", e.target.value)} /></label>
-          <label>E-mail*<input value={form.email} onChange={(e) => set("email", e.target.value)} /></label>
-          <label>WhatsApp*<input value={form.whats} onChange={(e) => set("whats", e.target.value)} /></label>
-          <label>Cidade e UF*<input value={form.cidade} onChange={(e) => set("cidade", e.target.value)} /></label>
-          <label>Segmento*<select value={form.segmento} onChange={(e) => set("segmento", e.target.value)}><option value="">Selecione</option>{segments.map((s) => <option key={s.title}>{s.title}</option>)}</select></label>
-          <label>Solução de interesse*<select value={form.solucao} onChange={(e) => set("solucao", e.target.value)}><option value="">Selecione</option>{solutions.map((s) => <option key={s.id}>{s.title}</option>)}</select></label>
-          <label>Descrição do desafio*<textarea value={form.desafio} onChange={(e) => set("desafio", e.target.value)} /></label>
-          <button className="btn gold" type="submit">Enviar meu desafio para análise</button>
-        </form>
-        <aside className="contact-aside">
-          <h2>Contato oficial</h2>
-          <p>Rua Visconde do Rio Branco, n.106,<br />Centro, São João da Boa Vista - SP,<br />CEP: 13870-180</p>
-          <a href={whatsapp}>+55 (19) 99651-4827</a>
-          <a href="tel:+551931950160">+55 (19) 3195-0160</a>
-          <a href={`mailto:${email}`}>{email}</a>
-          <a href={`mailto:${complianceEmail}`}>{complianceEmail}</a>
-          <div className="compliance-box">
-            <h3>Canal de denúncias</h3>
-            <p>Canal seguro para relatos de integridade, com tratamento confidencial, respeito à LGPD e encaminhamento institucional adequado.</p>
-            <a className="btn light small" href={`mailto:${complianceEmail}`}>Enviar relato</a>
-          </div>
-          <div className="faq-mini">
-            <h3>FAQ institucional</h3>
-            <p><b>O formulário substitui análise técnica?</b> Não. Ele organiza a triagem inicial para direcionamento da equipe.</p>
-            <p><b>Como tratar dados pessoais?</b> As informações são usadas para atendimento, retorno e obrigações legais aplicáveis.</p>
-          </div>
-          <div className="institutional-links">
-            <a href="politica-de-privacidade">Política de Privacidade</a>
-            <a href="termos-de-uso">Termos de Uso</a>
-            <a href="canal-de-etica">Canal de Ética</a>
-          </div>
-        </aside>
-      </div>
+    <main className="page-main unified-page">
+      <section className="page-hero legacy-unified-hero">
+        <div>
+          <p className="kicker">{eyebrow}</p>
+          <h1>{title}</h1>
+          <p>{text}</p>
+        </div>
+        <div className="page-hero-mark" />
+      </section>
+      <article className="legacy-unified-content" dangerouslySetInnerHTML={{ __html: html }} />
     </main>
   );
+}
+
+function BlogArticlePage({ page }: { page: keyof typeof legacyPageFiles }) {
+  const titles: Record<string, string> = {
+    "blog-direitos-concessionaria": "Direitos perante a concessionária",
+    "blog-nova-regulamentacao": "Nova regulamentação e energia solar",
+    "blog-6-duvidas": "6 dúvidas sobre energia solar",
+    "blog-aterramento": "Aterramento e segurança elétrica",
+  };
+  return <UnifiedLegacyPage page={page} eyebrow="Blog" title={titles[page] || "Blog"} text="Artigo original da Renovera, integrado ao portal com o mesmo cabeçalho e rodapé globais." />;
 }
 
 function LegalPage({ type }: { type: "privacy" | "terms" | "ethics" }) {
@@ -722,6 +693,30 @@ function LegalPage({ type }: { type: "privacy" | "terms" | "ethics" }) {
     ethics: ["Canal de Ética", "Use este canal para relatar situações que exijam análise ética, transparência ou integridade. O contato inicial pode ser feito pelo e-mail oficial da Renovera."],
   }[type];
   return <main className="page-main"><PageHero title={content[0]} text={content[1]} /><article className="article-body"><p>Contato oficial: <a href={`mailto:${email}`}>{email}</a>.</p><p>Endereço: {address}.</p></article></main>;
+}
+
+
+function CookieBanner({ path }: { path: string }) {
+  const cookieKey = "renovera-cookie-consent";
+  const [visible, setVisible] = useState(false);
+  useEffect(() => {
+    if (path !== "/") {
+      setVisible(false);
+      return;
+    }
+    setVisible(localStorage.getItem(cookieKey) !== "accepted");
+    (window as typeof window & { clearRenoveraCookieConsent?: () => void }).clearRenoveraCookieConsent = () => {
+      localStorage.removeItem(cookieKey);
+      setVisible(true);
+    };
+  }, [path]);
+  if (!visible) return null;
+  return (
+    <aside className="cookie-banner" role="dialog" aria-label="Aviso de cookies">
+      <p>Ao acessar o site você concorda com o uso de cookies para melhorar a sua experiência de navegação. Para saber mais acesse a nossa <a href="politica-de-privacidade">Política de Privacidade</a>.</p>
+      <button type="button" onClick={() => { localStorage.setItem(cookieKey, "accepted"); setVisible(false); }}>Continuar e fechar</button>
+    </aside>
+  );
 }
 
 function BackToTop({ visible }: { visible: boolean }) {
@@ -735,6 +730,11 @@ function BackToTop({ visible }: { visible: boolean }) {
 function App() {
   const [path, setPath] = useState(routePath());
   const [showTop, setShowTop] = useState(false);
+  useEffect(() => {
+    if (path !== "/segmentos") return;
+    window.history.replaceState({}, "", `${assetBase}solucoes`);
+    setPath("/solucoes");
+  }, [path]);
   useEffect(() => {
     const targets = Array.from(document.querySelectorAll("section, article, .page-hero, .solution-detail"));
     targets.forEach((target, index) => {
@@ -763,21 +763,7 @@ function App() {
       if (!link) return;
       const href = link.getAttribute("href");
       if (!href || href.startsWith("http") || href.startsWith("mailto:") || href.startsWith("#")) return;
-      const nextUrl = new URL(href, window.location.href);
-      const base = "/renovera-landings-publicas";
-      const normalized = nextUrl.pathname.replace(/\/+$/, "") || "/";
-      const route = normalized.startsWith(base) ? normalized.slice(base.length) || "/" : normalized;
-      const legacyRoutes = new Set([
-        "/sobre",
-        "/insights",
-        "/blog",
-        "/contato",
-        "/blog-direitos-concessionaria",
-        "/blog-nova-regulamentacao",
-        "/blog-6-duvidas",
-        "/blog-aterramento",
-      ]);
-      if (legacyRoutes.has(route)) return;
+      const nextUrl = new URL(href, href.startsWith("/") ? window.location.origin : `${window.location.origin}${assetBase}`);
       event.preventDefault();
       window.history.pushState({}, "", nextUrl.pathname + nextUrl.search);
       setPath(routePath());
@@ -801,17 +787,21 @@ function App() {
   }, []);
   const page = useMemo(() => {
     if (path === "/solucoes") return <SolutionsPage />;
-    if (path === "/segmentos") return <SegmentsPage />;
+    if (path === "/segmentos") return <SolutionsPage />;
     if (path === "/cases") return <CasesPage />;
-    if (path === "/insights") return <InsightsPage />;
     if (path === "/sobre") return <AboutPage />;
     if (path === "/contato") return <ContactPage />;
+    if (path === "/blog" || path === "/insights") return <InsightsPage />;
+    if (path === "/blog-direitos-concessionaria") return <BlogArticlePage page="blog-direitos-concessionaria" />;
+    if (path === "/blog-nova-regulamentacao") return <BlogArticlePage page="blog-nova-regulamentacao" />;
+    if (path === "/blog-6-duvidas") return <BlogArticlePage page="blog-6-duvidas" />;
+    if (path === "/blog-aterramento") return <BlogArticlePage page="blog-aterramento" />;
     if (path === "/politica-de-privacidade") return <LegalPage type="privacy" />;
     if (path === "/termos-de-uso") return <LegalPage type="terms" />;
     if (path === "/canal-de-etica") return <LegalPage type="ethics" />;
     return <Home />;
   }, [path]);
-  return <><Header />{page}<Footer /><BackToTop visible={showTop} /><a className="whatsapp-float" href={wa("Olá, Renovera. Gostaria de falar com um especialista.")} aria-label="Falar no WhatsApp"><WhatsAppIcon /><span>Falar com a Renovera</span></a></>;
+  return <><Header />{page}<Footer /><CookieBanner path={path} /><BackToTop visible={showTop} /><a className="whatsapp-float" href={wa("Olá, Renovera. Gostaria de conversar sobre uma solução de energia para minha operação.")} aria-label="Falar no WhatsApp"><WhatsAppIcon /><span>Falar com a Renovera</span></a></>;
 }
 
 export default App;
